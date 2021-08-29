@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Email</title>
+    <style>
+        body {
+            color: #666;
+            text-align: center;
+        }
+
+        .name {
+            width: 600px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .long-input {
+            width: 535px;
+        }
+
+        .item-btn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Send Email</h1>
+    <div class="container">
+        <div class="item">
+            <div class="name">
+                <div class="name-first">
+                    <span>First name：</span>
+                    <input type="text" id="firstName">
+                </div>
+                <div class="name-last">
+                    <span>Last name：</span>
+                    <input type="text" id="lastName">
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <span>Email：</span>
+            <input class="long-input" type="text" id="email">
+        </div>
+
+
+        <div class="item-btn">
+            <button>Send Email</button>
+        </div>
+    </div>
+
+    <script src="./javascripts/axios.min.js"></script>
+    <script>
+        let btn = document.querySelector('button')
+
+        let emailRule = /^\w{0,10}\d{0,10}@.{1,10}\..{1,10}/
+
+        btn.onclick = function () {
+            let firstName = document.getElementById('firstName').value
+            let lastName = document.getElementById('lastName').value
+            let email = document.getElementById('email').value
+
+            if (firstName == '' || lastName == '') {
+                alert('Can not be empey')
+                return
+            }
+
+            if (!emailRule.test(email)) {
+                alert('Make sure you enter the correct email address')
+                return
+            }
+
+            axios.get('/send', {
+                params: {
+                    firstName,
+                    lastName,
+                    email
+                }
+            })
+                .then(function (response) {
+                    alert(response.data)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });
+        }
+
+
+    </script>
+
+</body>
+
+</html>

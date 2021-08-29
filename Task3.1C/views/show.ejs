@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>show database</title>
+    <style>
+        hr {
+            width: 400px;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+    </div>
+
+
+    <script src="./javascripts/axios.min.js"></script>
+    <script>
+        let container = document.querySelector('.container')
+        axios.get('/showdata')
+            .then(function (response) {
+                let arr = response.data
+                console.log(arr.length);
+                for (let i = 0; i < arr.length; i++) {
+                    container.insertAdjacentHTML('beforeEnd',
+                        `
+                    <p>Country:${arr[i].select}</p>
+                    <p>First name:${arr[i].firstName}</p>
+                    <p>Last name:${arr[i].lastName}</p>
+                    <p>Email:${arr[i].email}</p>
+                    <p>Address:${arr[i].address}</p>
+                    <p>City:${arr[i].city}</p>
+                    <p>State:${arr[i].state}</p>
+                    <p>ZIP / Postal code:${arr[i].postalCode}</p>
+                    <p>Mobile phone number:${arr[i].phone}</p>
+                    <hr><br>
+                `
+                    )
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+    </script>
+</body>
+
+</html>
